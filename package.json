@@ -32,6 +32,8 @@
   "dependencies": {
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
+    "@vime/core": "^5.3.0",
+    "@vime/svelte": "^5.3.0",
     "cookie": "^0.4.1"
   }
 }

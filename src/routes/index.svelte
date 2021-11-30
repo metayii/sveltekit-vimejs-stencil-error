@@ -1,59 +1,51 @@
-<script context="module" lang="ts">
-	export const prerender = true;
-</script>
-
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import {
+		Player,
+		Video, 
+		DefaultUi,
+		usePlayerStore,
+	} from '@vime/svelte';
+	// Custom UI component.
+	import TapSidesToSeek from './TapSidesToSeek.svelte';
+	// Obtain a ref if you need to call any methods.
+	let player: Player;
+	/**
+	 * All player properties are available through the store. If you prefer, you could also pass 
+	 * properties directly to the player and listen for events.
+	 */
+	const { paused } = usePlayerStore(() => player);
+	const onPlaybackReady = () => {
+		// ...
+	};
+	$: console.log($paused);
 </script>
 
-<svelte:head>
-	<title>Home</title>
-</svelte:head>
+<div id="container">
+	<Player on:vPlaybackReady={onPlaybackReady} bind:this={player}>
+		<Video crossOrigin="" poster="https://media.vimejs.com/poster.png">
+			<source data-src="https://media.vimejs.com/720p.mp4" type="video/mp4">
+		</Video>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
+		<DefaultUi>
+			<TapSidesToSeek />
+		</DefaultUi>
+	</Player>
+</div>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
+	:global(html),
+	:global(body) {
 		width: 100%;
 		height: 100%;
-		top: 0;
-		display: block;
+	}
+	:global(body) {
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	#container {
+		width: 100%;
+		max-width: 960px;
 	}
 </style>
